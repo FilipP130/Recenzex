@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Recenzex")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41ada6cca095f9a2b2fc724f33f9123d2b2a3f7d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Recenzex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Recenzex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
