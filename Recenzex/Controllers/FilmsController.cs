@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Recenzex.Data;
 using Recenzex.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Recenzex.Controllers
 {
@@ -46,6 +48,7 @@ namespace Recenzex.Controllers
         }
 
         // GET: Films/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name");
@@ -70,6 +73,7 @@ namespace Recenzex.Controllers
         }
 
         // GET: Films/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,6 +127,7 @@ namespace Recenzex.Controllers
         }
 
         // GET: Films/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

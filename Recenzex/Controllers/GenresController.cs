@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Recenzex.Data;
 using Recenzex.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Recenzex.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GenresController : Controller
     {
         private readonly ApplicationDbContext _context;
