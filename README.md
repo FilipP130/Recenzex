@@ -19,26 +19,25 @@ Connection String: "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=R
 
 3. ROLE
 
-* Admin – pe³ny dostêp do aplikacji
-* User – przegl¹danie filmów, dodawanie recenzji i komentarzy
+* Admin – pełny dostęp do aplikacji
+* User – przeglądanie filmów, dodawanie recenzji i komentarzy
 
 Konto administratora:
 Login: admin@recenzex.pl
-Has³o: Admin!12345
+Hasło: Admin!12345
 
 ---
 
-4. FUNKCJONALNOŒCI
+4. FUNKCJONALNOŚCI
 
-U¿ytkownik niezalogowany mo¿e:
+Użytkownik niezalogowany może:
+	* przeglądać listę filmów,
+	* przechodzić do szczegółów filmu,
+	* przeglądać recenzje i komentarze innych użytkowników.
 
-	* przegl¹daæ listê filmów,
-	* przechodziæ do szczegó³ów filmu,
-	* przegl¹daæ recenzje i komentarze innych u¿ytkowników.
-
-U¿ytkownik zalogowany mo¿e:
-	* dodawaæ recenzje i komentarze do filmów,
-	* edytowaæ i usuwaæ swoje recenzje i komentarze,
+Użytkownik zalogowany może:
+	* dodawać recenzje i komentarze do filmów,
+	* edytować i usuwać swoje recenzje i komentarze,
 
 ---
 
