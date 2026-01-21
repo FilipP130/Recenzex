@@ -11,10 +11,10 @@ RECENZEX
 
 2. KONFIGURACJA BAZY DANYCH
 
-Serwer: localhost\SQLEXPRESS
-Baza danych: Recenzex
-Connection String: "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=Recenzex;Trusted_Connection=True;TrustServerCertificate=True;"
-
+* Serwer: localhost\SQLEXPRESS
+* Baza danych: Recenzex
+* Connection String: "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=Recenzex;Trusted_Connection=True;TrustServerCertificate=True;"
+  
 ---
 
 3. ROLE
