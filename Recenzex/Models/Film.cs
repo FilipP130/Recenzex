@@ -17,9 +17,16 @@ namespace Recenzex.Models
         [StringLength(1000)]
         public string Description { get; set; }
 
+        [Url(ErrorMessage = "Podaj link")]
+        [Display(Name = "Plakat (URL)")]
+        [StringLength(500)]
+        public string? PosterUrl { get; set; }
+
         [Required]
         public int GenreId { get; set; }
         public Genre? Genre { get; set; }
+        public int RatingSum { get; set; } = 0;
+        public int RatingCount { get; set; } = 0;
 
         public ICollection<Review>? Reviews { get; set; }
     }

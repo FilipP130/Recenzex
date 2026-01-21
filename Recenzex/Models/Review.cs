@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recenzex.Models
 {
@@ -16,6 +17,12 @@ namespace Recenzex.Models
         public int FilmId { get; set; }
         public Film? Film { get; set; }
 
+        [Required]
+        public string UserId { get; set; } = "";
+        public IdentityUser? User { get; set; }
+
         public ICollection<Comment>? Comments { get; set; }
+
+
     }
 }

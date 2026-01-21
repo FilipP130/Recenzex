@@ -1,31 +1,95 @@
-html {
-  font-size: 14px;
+body {
+    background-color: #000;
+    background-image: url("https://img1.picmix.com/output/stamp/normal/6/0/4/0/2480406_3ec8a.gif");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    background-attachment: fixed;
+    color: #f1f1f1;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.page-wrapper {
+    flex: 1;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+main {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
 }
+
+.hero-banner {
+    background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url("https://www.thread-of-awareness.com/IMAGES/3DSTARAN.GIF");
+    background-repeat: repeat;
+    background-size: 500px 500px;
+    background-position: center;
+    color: #ffffff;
+    padding: 80px 40px;
+    text-align: center;
+}
+.hero-banner h1 {
+    font-size: 6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.hero-banner p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    color: #f1f1f1;
+}
+
+.card {
+    background-color: #111;
+    color: #f1f1f1;
+    border: 1px solid #333;
+}
+
+    .card .card-title {
+        color: #ffffff;
+    }
+
+    .card .card-text {
+        color: #cccccc;
+    }
+
+.navbar {
+    background-color: #000 !important;
+    border-bottom: 1px solid #333;
+}
+
+    .navbar a {
+        color: #f1f1f1 !important;
+    }
+
+        .navbar a:hover {
+            color: #f39c12 !important;
+        }
+
+footer {
+    background-color: #000;
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+    .btn-primary:hover {
+        background-color: #d35400;
+        border-color: #d35400;
+    }

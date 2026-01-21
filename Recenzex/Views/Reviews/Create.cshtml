@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    bool lockFilm = ViewBag.LockFilm == true;
 }
 
 <h1>Create</h1>
@@ -10,7 +11,23 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-route-filmId="@(lockFilm ? (int)ViewBag.FilmId : (int?)null)" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            @if (lockFilm)
+            {
+                <div class="mb-3">
+                    <label class="form-label">Film</label>
+                    <input class="form-control" value="@($"{ViewBag.FilmTitle} ({ViewBag.FilmYear})")" readonly />
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <label asp-for="FilmId" class="control-label"></label>
+                    <select asp-for="FilmId" class="form-control" asp-items="ViewBag.FilmId"></select>
+                    <span asp-validation-for="FilmId" class="text-danger"></span>
+                </div>
+            }
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Rating" class="control-label"></label>
@@ -23,18 +40,10 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FilmId" class="control-label"></label>
-                <select asp-for="FilmId" class ="form-control" asp-items="ViewBag.FilmId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary mt-2" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

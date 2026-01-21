@@ -38,6 +38,9 @@ namespace Recenzex.Controllers
 
             var film = await _context.Films
                 .Include(f => f.Genre)
+                .Include(f => f.Reviews)
+                .ThenInclude(r => r.Comments)
+                .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (film == null)
             {
@@ -60,7 +63,7 @@ namespace Recenzex.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Year,Description,GenreId")] Film film)
+        public async Task<IActionResult> Create([Bind("Id,Title,Year,Description,PosterUrl,GenreId")] Film film)
         {
             if (ModelState.IsValid)
             {
@@ -91,11 +94,10 @@ namespace Recenzex.Controllers
         }
 
         // POST: Films/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year,Description,GenreId")] Film film)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year,Description,PosterUrl,GenreId")] Film film)
         {
             if (id != film.Id)
             {

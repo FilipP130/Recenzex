@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Recenzex.Data;
 using Recenzex.Models;
 using Recenzex.Dtos;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Recenzex.Controllers
 {
@@ -28,6 +30,7 @@ namespace Recenzex.Controllers
                     Id = f.Id,
                     Title = f.Title,
                     Year = f.Year,
+                    PosterUrl = f.PosterUrl,
                     Description = f.Description,
                     GenreId = f.GenreId,
                     GenreName = f.Genre != null ? f.Genre.Name : ""
@@ -49,6 +52,7 @@ namespace Recenzex.Controllers
                     Id = f.Id,
                     Title = f.Title,
                     Year = f.Year,
+                    PosterUrl = f.PosterUrl,
                     Description = f.Description,
                     GenreId = f.GenreId,
                     GenreName = f.Genre != null ? f.Genre.Name : ""
@@ -61,6 +65,7 @@ namespace Recenzex.Controllers
 
 
         // POST: /api/films
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Film>> PostFilm(Film film)
         {
@@ -71,6 +76,7 @@ namespace Recenzex.Controllers
         }
 
         // PUT: /api/films/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> PutFilm(int id, Film film)
         {
@@ -94,6 +100,7 @@ namespace Recenzex.Controllers
         }
 
         // DELETE: /api/films/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteFilm(int id)
         {

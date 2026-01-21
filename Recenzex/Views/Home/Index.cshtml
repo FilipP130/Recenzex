@@ -1,8 +1,77 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Recenzex.Models.Film>
+
+@{
+    ViewData["Title"] = "Recenzex";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-banner mb-4">
+    <div class="container-fluid py-3">
+        <h1 style="text-shadow: 4px 2px 0px rgba(243, 11, 11, 1);" class="display-5 fw-bold">Recenzex</h1>
+        <p class="col-md-8 fs-5">
+            :O Oceniaj filmy, dodawaj recenzje i odkrywaj nowe tytuły. O_O
+        </p>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h4 m-0">Najnowsze filmy</h2>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            @foreach (var film in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrWhiteSpace(film.PosterUrl))
+                        {
+                            <img src="@film.PosterUrl"
+                                 alt="Plakat: @film.Title"
+                                 style="width:100%; height:260px; object-fit:cover; border-bottom:1px solid #333;" />
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@film.Title (@film.Year)</h5>
+
+                            <p class="card-text">
+                                @(film.Description?.Length > 120 ? film.Description.Substring(0, 120) + "..." : film.Description)
+                            </p>
+
+                            <a class="btn btn-outline-primary"
+                               asp-controller="Films"
+                               asp-action="Details"
+                               asp-route-id="@film.Id">
+                                Szczegóły
+                            </a>
+                            @{
+                                double? avg = film.RatingCount == 0
+                                ? (double?)null
+                                : (double)film.RatingSum / film.RatingCount;
+                            }
+
+                            @if (avg.HasValue)
+                            {
+                                <span class="badge bg-warning text-dark ms-2">
+                                    @avg.Value.ToString("0.0") / 10
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary ms-2">
+                                    Brak ocen
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Brak filmów w bazie. Zaloguj się jako administrator i dodaj pierwsze tytuły.
+        </div>
+    }
+</section>

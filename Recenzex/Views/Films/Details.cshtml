@@ -1,26 +1,24 @@
 ﻿@model Recenzex.Models.Film
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Details";
+    double? avg = Model.RatingCount == 0
+        ? (double?)null
+        : (double)Model.RatingSum / Model.RatingCount;
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Title)</h1>
 
 <div>
-    <h4>Film</h4>
+    <h4>@Html.DisplayFor(model => model.Year)</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -28,15 +26,133 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre.Name)
-        </dd>
+        @if (!string.IsNullOrWhiteSpace(Model.PosterUrl))
+        {
+            <div class="mb-3">
+                <img src="@Model.PosterUrl"
+                     alt="Plakat: @Model.Title"
+                     style="max-width:260px; width:100%; border-radius:10px; border:1px solid #333;" />
+            </div>
+        }
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+<h3 class="mb-3">Recenzje</h3>
+<a asp-controller="Reviews"
+   asp-action="Create"
+   asp-route-filmId="@Model.Id"
+   class="btn btn-primary mb-2">
+    Dodaj recenzję
+</a>
+
+@if (Model.Reviews != null && Model.Reviews.Any())
+{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    <div class="d-flex flex-column gap-3">
+        @foreach (var r in Model.Reviews.OrderByDescending(x => x.Id))
+        {
+            bool canManage =
+            User.IsInRole("Admin") ||
+            (User.Identity != null &&
+            User.Identity.IsAuthenticated &&
+            r.UserId == currentUserId);
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div>
+                            <span class="badge bg-warning text-dark">@r.Rating / 10</span>
+                        </div>
+                    </div>
+
+                    <p class="mb-2">@r.Content</p>
+
+                    @if (canManage)
+                    {
+                        <div class="d-flex gap-2 mb-3">
+                            <a class="btn btn-sm btn-outline-light"
+                               asp-controller="Reviews"
+                               asp-action="Edit"
+                               asp-route-id="@r.Id">
+                                Edytuj
+                            </a>
+
+                            <a class="btn btn-sm btn-outline-danger"
+                               asp-controller="Reviews"
+                               asp-action="Delete"
+                               asp-route-id="@r.Id">
+                                Usuń
+                            </a>
+                        </div>
+                    }
+                    <div class="mt-3">
+                        <h6 class="mb-2">Komentarze</h6>
+
+                        @if (r.Comments != null && r.Comments.Any())
+                        {
+                            <div class="d-flex flex-column gap-2">
+                                @foreach (var c in r.Comments.OrderBy(x => x.CreatedAt))
+                                {
+                                    <div class="border-start ps-3">
+                                        <small>
+                                            @c.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                                        </small>
+                                        <div>@c.Content</div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div>Brak komentarzy.</div>
+                        }
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <form asp-controller="Comments"
+                                  asp-action="Create"
+                                  method="post"
+                                  class="mt-3">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" name="reviewId" value="@r.Id" />
+
+                                <div class="mb-2">
+                                    <textarea name="content"
+                                  class="form-control"
+                                  rows="2"
+                                  placeholder="Dodaj komentarz..."
+                                  required
+                                  maxlength="500"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    Dodaj komentarz
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="mt-2">
+                                Zaloguj się, aby dodać komentarz.
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        Ten film nie ma jeszcze recenzji. Bądź pierwszy i dodaj ocenę!
+    </div>
+}
