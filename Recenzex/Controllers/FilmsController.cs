@@ -39,8 +39,8 @@ namespace Recenzex.Controllers
             var film = await _context.Films
                 .Include(f => f.Genre)
                 .Include(f => f.Reviews)
-                .ThenInclude(r => r.Comments)
-                .ThenInclude(r => r.User)
+                    .ThenInclude(r => r.Comments)
+                        .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (film == null)
             {

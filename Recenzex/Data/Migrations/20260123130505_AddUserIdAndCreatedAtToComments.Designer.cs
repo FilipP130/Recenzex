@@ -12,8 +12,8 @@ using Recenzex.Data;
 namespace Recenzex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260121175033_AddReviewOwner2")]
-    partial class AddReviewOwner2
+    [Migration("20260123130505_AddUserIdAndCreatedAtToComments")]
+    partial class AddUserIdAndCreatedAtToComments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,12 +240,21 @@ namespace Recenzex.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ReviewId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -400,7 +409,15 @@ namespace Recenzex.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Review");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Recenzex.Models.Film", b =>
